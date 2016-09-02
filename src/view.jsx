@@ -48,29 +48,51 @@ const View = React.createClass({
   render: function() {
     console.log('this.props.lightState', this.props.lightState);
     console.log('this.props.confidence', this.props.confidence);
-    const lightON = this.props.lightState == 'ON';
+    console.log('this.props.tree', this.props.tree);
+    const displayWarning = this.props.confidence < 0.7;
+    const lightON = displayWarning ? lightON : this.props.lightState == 'ON';
     return (
       <div className='column'>
         <h1>Your room</h1>
-        <div className='row'>
-          <div>
-            <i className={ `fa fa-lightbulb-o fa-4x light-${ lightON ? 'on' : 'off' }` }/>
-          </div>
-          <div>
-            <button onClick={ this.initializeAgent }>Initialize Agent</button>
-            <div>
-              <input type='checkbox' onChange={ this.updateMovement }/>&nbsp;Movement
-            </div>
-            <DateTimePicker
-              defaultValue={ this.state.date }
-              onChange={ this.updateDate } />
-          </div>
+        <div className='row' style={{ justifyContent: 'center', marginBottom: 10 }}>
+          <button onClick={ this.initializeAgent }>Initialize Agent</button>
+          <i className='fa fa-spinner fa-spin fa-fw' style={{ color: this.props.initializing ? 'black' : 'white' }} />
         </div>
+        {
+          this.props.tree ?
+          (
+            <div className='row'>
+              <div>
+                <i className={ `fa fa-lightbulb-o fa-4x light-${ lightON ? 'on' : 'off' }` }/>
+              </div>
+              <div>
+                <div>
+                  <input type='checkbox' onChange={ this.updateMovement }/>&nbsp;Movement
+                </div>
+                <DateTimePicker
+                  defaultValue={ this.state.date }
+                  onChange={ this.updateDate } />
+              </div>
+            </div>
+          ) : null
+        }
+        {
+          displayWarning ?
+          (
+            <div className='row'>
+              <div className='warning'>
+                Can't take a decision, the confidence is too low...
+              </div>
+            </div>
+          ) : null
+        }
       </div>
     );
   },
   propTypes: {
     dispatch: React.PropTypes.func.isRequired,
+    tree: React.PropTypes.array,
+    initializing: React.PropTypes.bool,
     lightState: React.PropTypes.string,
     confidence: React.PropTypes.number
   }
@@ -78,6 +100,8 @@ const View = React.createClass({
 
 function mapStateToProps(state) {
   return {
+    tree: state.tree,
+    initializing: state.initializing,
     lightState: state.lightState,
     confidence: state.confidence
   };

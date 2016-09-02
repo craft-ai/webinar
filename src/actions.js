@@ -1,5 +1,12 @@
 import { initialization, decide } from './learn';
 
+export const REQUEST_TREE = 'REQUEST_TREE';
+export function requestTree() {
+  return {
+    type: REQUEST_TREE
+  };
+}
+
 export const RECEIVE_TREE = 'RECEIVE_TREE';
 export function receiveTree(tree) {
   return {
@@ -10,6 +17,7 @@ export function receiveTree(tree) {
 
 export function initialize() {
   return (dispatch) => {
+    dispatch(requestTree());
     return initialization()
       .then((tree) => {
         return dispatch(receiveTree(tree));
