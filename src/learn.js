@@ -51,12 +51,10 @@ export function initialization() {
       console.log(`Adding context operations to agent ${CRAFT_AGENT} from '${DATASET_FILENAME}'`);
       return CRAFT_CLIENT.addAgentContextOperations(CRAFT_AGENT, DATASET_FILE);
     })
+    // 3 -  Retrieve the decision tree
     .then(() => {
-      return CRAFT_CLIENT.getAgent(CRAFT_AGENT)
-      .then(() => {
-        console.log(`Operations successfully added to agent ${CRAFT_AGENT}`);
-        return CRAFT_CLIENT.getAgentDecisionTree(CRAFT_AGENT, 1272745200);
-      });
+      console.log(`Operations successfully added to agent ${CRAFT_AGENT}`);
+      return CRAFT_CLIENT.getAgentDecisionTree(CRAFT_AGENT, 1272745200);
     })
     .then((tree) => {
       console.log('You can view your decision tree on https://beta.craft.ai');
@@ -67,6 +65,7 @@ export function initialization() {
 
 export function decide(movement, dateTime, tree) {
   return new Promise((resolve, reject) => {
+    // Take decision from the decision tree
     let decision = craftai.decide(
       tree,
       {

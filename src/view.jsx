@@ -20,8 +20,11 @@ function configureStore(initialStateJson = {}) {
 
 const store = configureStore();
 
+// react widgets localizer
 const momentLocalizer = require('react-widgets/lib/localizers/moment');
 momentLocalizer(moment);
+
+const DECISION_THRESHOLD = 0.7; // 70%
 
 const View = React.createClass({
   getInitialState: function() {
@@ -46,10 +49,7 @@ const View = React.createClass({
     dispatch(initialize());
   },
   render: function() {
-    console.log('this.props.lightState', this.props.lightState);
-    console.log('this.props.confidence', this.props.confidence);
-    console.log('this.props.tree', this.props.tree);
-    const displayWarning = this.props.confidence < 0.7;
+    const displayWarning = this.props.confidence < DECISION_THRESHOLD;
     const lightON = displayWarning ? lightON : this.props.lightState == 'ON';
     return (
       <div className='column'>
@@ -81,7 +81,8 @@ const View = React.createClass({
           (
             <div className='row'>
               <div className='warning'>
-                Can't take a decision, the confidence is too low...
+                Can't take a decision, the confidence is too low ({ (this.props.confidence * 100).toFixed(2) }%).<br />
+                The threshold is at { DECISION_THRESHOLD * 100 }%. Keeping the old behavior.
               </div>
             </div>
           ) : null
