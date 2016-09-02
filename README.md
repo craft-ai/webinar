@@ -10,7 +10,7 @@ in Node.js using [**craft ai** official js client](https://www.npmjs.com/package
 - Install dependencies by running `npm install` in a terminal from the directory where the sources are.
 - in this directory, create a `.env` file setting the following variables:
     - `CRAFT_TOKEN` allows you to [authenticate your calls to the **craft ai** API](https://beta.craft.ai/doc#header-authentication),
-    - `CRAFT_OWNER` define the **owner** of the craft ai agents that will be created _(at the moment you can use any string w/o spaces)_,
+    - `CRAFT_OWNER` define the **owner** of the craft ai agents that will be created  
 
 ## Usage ##
 
@@ -20,11 +20,15 @@ All the datas are taken from the dataset twor 2010 and polished by us.
 
 > Take a look at `data/ROOM_R1.json`
 
-### Create an agent and send data ###
+### Build ###
 
 ```console
-> npm run learn
+> npm run start
 ```
+
+### Launch ###
+
+> open `index.html`
 
 ### Resources ###
 

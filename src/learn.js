@@ -4,13 +4,12 @@ import moment from 'moment';
 import { Time } from 'craft-ai';
 
 const DATASET_FILENAME = 'data/ROOM_R1.json';
-const CRAFT_AGENT = 'YourAgentName';
+const CRAFT_AGENT = 'bar';
 const TIME_QUANTUM = 20 * 60; // 20 minutes in sec
 
 let CRAFT_CLIENT = craftai({
   owner: process.env.CRAFT_OWNER,
   token: process.env.CRAFT_TOKEN,
-  url: process.env.CRAFT_URL,
   operationsChunksSize: 200
 });
 
@@ -24,9 +23,6 @@ const CRAFT_MODEL = {
     },
     time: {
       type: 'time_of_day'
-    },
-    day: {
-      type: 'day_of_week'
     },
     month: {
       type: 'continuous'
